@@ -1,0 +1,42 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Dataset (optional if dataset is large)
+dataset/
+
+# Training outputs
+runs/
+runs_yolo11_seg/
+maskrcnn_runs/
+outputs/
+
+# Model weights
+*.pt
+*.pth
+*.onnx
+
+# Logs
+*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
