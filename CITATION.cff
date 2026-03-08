@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: Gully Instance Segmentation with YOLO11 and Mask R-CNN
+message: If you use this repository, please cite it using the metadata below.
+type: software
+
+authors:
+  - family-names: Loo
+    given-names: Mariana S.
+  - family-names: Durango
+    given-names: Carlos E.
+
+abstract: >
+  Deep learning framework for instance segmentation of gully erosion
+  features in UAV imagery using YOLO11 and Mask R-CNN.
+
+keywords:
+  - gully erosion
+  - instance segmentation
+  - UAV imagery
+  - YOLO
+  - Mask R-CNN
+  - computer vision
+
+license: MIT
+
+repository-code: https://github.com/your-username/your-repository
+
+version: 1.0.0
+date-released: 2026
