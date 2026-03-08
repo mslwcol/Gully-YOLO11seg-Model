@@ -1,6 +1,6 @@
 # Gully Instance Segmentation with YOLO11 and Mask R-CNN
 
-This repository contains the code used to train and evaluate **instance segmentation models for gully detection in UAV imagery**.
+This repository contains the code used to train and evaluate **instance segmentation models for gully erosion detection in UAV imagery**.
 
 Two deep learning models are implemented and compared:
 
@@ -9,6 +9,8 @@ Two deep learning models are implemented and compared:
 
 The repository includes scripts for dataset preparation, augmentation, model training, and evaluation.
 
+Due to GitHub storage limitations, the dataset is hosted externally on Roboflow.
+
 ---
 
 # Models
@@ -16,14 +18,6 @@ The repository includes scripts for dataset preparation, augmentation, model tra
 ## YOLO11 Instance Segmentation
 
 Single-stage instance segmentation architecture implemented using the Ultralytics YOLO framework.
-
-Three variants were evaluated:
-
-| Model | Description |
-|------|-------------|
-| YOLO11s | small model |
-| YOLO11m | medium model |
-| YOLO11l | large model |
 
 Training configuration:
 
@@ -39,54 +33,106 @@ Training configuration:
 
 Training script:
 
-```bash
+```
 python pipeline/05-model_yolo11.py
-```
-
-Outputs are saved in:
-
-```
-runs_yolo11_seg/
 ```
 
 ---
 
 ## Mask R-CNN Instance Segmentation
 
-Two-stage instance segmentation model implemented using **Mask R-CNN with a ResNet50-FPN backbone**.
+Two-stage instance segmentation architecture.
 
-Training configuration:
+Configuration:
 
 | Parameter | Value |
 |----------|------|
 | Backbone | ResNet50-FPN |
+| Epochs | 300 |
 | Batch size | 16 |
-| Iterations | 31800 |
-| Optimizer | SGD |
 | Learning rate | 0.01 |
 | Input resolution | 640 |
 
 Training script:
 
-```bash
+```
 python pipeline/06-model_maskrcnn.py
-```
-
-Outputs are stored in:
-
-```
-maskrcnn_runs/
 ```
 
 ---
 
 # Dataset
 
-The dataset contains **2420 annotated UAV image tiles**.
+The dataset used for training and evaluating the segmentation models is hosted on **Roboflow**.
 
-Total annotated instances:
+Two export formats are provided to support the two model architectures implemented in this repository.
 
-3379 gully objects.
+---
+
+## YOLO11 Segmentation Dataset
+
+Download the dataset in YOLO segmentation format:
+
+https://app.roboflow.com/ds/IgRIi42cl9?key=WpsBLm4zOf
+
+After downloading, place the dataset in the following directory structure:
+
+```
+dataset
+└── data_yolo11
+    ├── train
+    │   ├── images
+    │   └── labels
+    │
+    ├── valid
+    │   ├── images
+    │   └── labels
+    │
+    ├── test
+    │   ├── images
+    │   └── labels
+    │
+    └── data.yaml
+```
+
+This format is used to train the **YOLO11 instance segmentation model**.
+
+---
+
+## COCO JSON Dataset
+
+Download the dataset in COCO instance segmentation format:
+
+https://app.roboflow.com/ds/zU8B2gmjtj?key=iy1YAdroY2
+
+After downloading, place the dataset in the following directory structure:
+
+```
+dataset
+└── data_maskrcnn
+    ├── train
+    │   └── _annotations.coco.json
+    │
+    ├── valid
+    │   └── _annotations.coco.json
+    │
+    └── test
+        └── _annotations.coco.json
+```
+
+This format is used to train the **Mask R-CNN instance segmentation model**.
+
+---
+
+# Dataset Summary
+
+Dataset characteristics:
+
+| Property | Value |
+|--------|------|
+| Total images | 2420 |
+| Total annotated instances | 3379 |
+| Annotation type | Polygon segmentation |
 
 Dataset split:
 
@@ -95,15 +141,6 @@ Dataset split:
 | Train | 1694 |
 | Validation | 484 |
 | Test | 242 |
-
-Annotations were created using polygon segmentation.
-
-Two annotation formats are used:
-
-| Format | Used for |
-|------|------|
-| YOLO segmentation | YOLO11 |
-| COCO JSON | Mask R-CNN |
 
 ---
 
@@ -114,9 +151,9 @@ The `pipeline` directory contains scripts used to prepare the dataset and train 
 1. Convert annotations to YOLO format  
 2. Convert annotations to COCO format  
 3. Split dataset  
-4. Perform data augmentation  
-5. Train YOLO11 segmentation model  
-6. Train Mask R-CNN segmentation model
+4. Data augmentation  
+5. Train YOLO11 model  
+6. Train Mask R-CNN model  
 
 ---
 
@@ -134,34 +171,10 @@ repository
 │   └── 06-model_maskrcnn.py
 │
 ├── dataset
-│   │
 │   ├── data_yolo11
-│   │   │
-│   │   ├── train
-│   │   │   ├── images
-│   │   │   └── labels
-│   │   │
-│   │   ├── valid
-│   │   │   ├── images
-│   │   │   └── labels
-│   │   │
-│   │   ├── test
-│   │   │   ├── images
-│   │   │   └── labels
-│   │   │
-│   │   └── data.yaml
-│   │
 │   └── data_maskrcnn
-│       │
-│       ├── train
-│       │   └── _annotations.coco.json
-│       │
-│       ├── valid
-│       │   └── _annotations.coco.json
-│       │
-│       └── test
-│           └── _annotations.coco.json
 │
+├── CITATION.cff
 ├── README.md
 ├── LICENSE
 └── .gitignore
@@ -186,25 +199,27 @@ albumentations
 
 Example installation:
 
-```bash
+```
 pip install ultralytics
 pip install opencv-python
 pip install albumentations
 ```
 
-Detectron2 installation instructions:
-
-https://detectron2.readthedocs.io
-
 ---
 
 # Reproducibility
 
-All experiments were conducted using fixed training parameters and consistent dataset partitions to ensure reproducibility.
+To reproduce the experiments:
 
-Random seeds are fixed where possible during training.
+1. Download the dataset from the Roboflow links above.
+2. Place the dataset inside the `dataset` directory using the structure described in this README.
+3. Run the training scripts located in the `pipeline` folder.
 
-Evaluation results are exported automatically as JSON files.
+---
+
+# Citation
+
+If you use this repository in your research, please cite the repository using the metadata provided in the `CITATION.cff` file.
 
 ---
 
